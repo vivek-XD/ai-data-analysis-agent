@@ -3,14 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ---------------- Page Config ----------------
 st.set_page_config(
     page_title="AI Data Analysis Agent",
     page_icon="🤖",
     layout="wide"
 )
 
-# ---------------- Professional Background CSS ----------------
 st.markdown("""
 <style>
 .stApp {
@@ -43,11 +41,9 @@ section[data-testid="stSidebar"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- Header ----------------
 st.markdown("<h1 style='text-align:center;'>🤖 AI Data Analysis Agent</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;color:#C7D2FE;'>Professional Data Analytics Dashboard</p>", unsafe_allow_html=True)
 
-# ---------------- Sidebar ----------------
 st.sidebar.title("⚙️ Controls")
 uploaded_file = st.sidebar.file_uploader("📂 Upload CSV File", type=["csv"])
 
@@ -56,12 +52,10 @@ chart_type = st.sidebar.selectbox(
     ["Histogram", "Bar Chart", "Line Chart", "Box Plot"]
 )
 
-# ---------------- MAIN LOGIC ----------------
 if uploaded_file:
 
     df = pd.read_csv(uploaded_file)
 
-    # -------- KPI CARDS --------
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.markdown(f"<div class='glass'><h2>{df.shape[0]}</h2>Rows</div>", unsafe_allow_html=True)
@@ -72,11 +66,11 @@ if uploaded_file:
     with c4:
         st.markdown("<div class='glass'><h2>ON</h2>AI Agent</div>", unsafe_allow_html=True)
 
-    # -------- DATA PREVIEW --------
+
     st.markdown("<div class='section'><h3>📑 Dataset Preview</h3></div>", unsafe_allow_html=True)
     st.dataframe(df, use_container_width=True)
 
-    # -------- RECORD OPTIONS --------
+    
     st.markdown("<div class='section'><h3>🔍 Explore Records</h3></div>", unsafe_allow_html=True)
     view_option = st.selectbox("Select Records", ["All", "Top 5", "Bottom 5"])
 
@@ -87,7 +81,7 @@ if uploaded_file:
     else:
         st.dataframe(df)
 
-    # -------- FILTER OPTION --------
+    
     st.markdown("<div class='section'><h3>🎚️ Filter Data</h3></div>", unsafe_allow_html=True)
     filter_col = st.selectbox("Select Column to Filter", df.columns)
 
@@ -103,10 +97,10 @@ if uploaded_file:
     else:
         st.info("Selected column is not numeric")
 
-    # -------- TABS --------
+    
     tab1, tab2, tab3 = st.tabs(["📊 Visualization", "📈 Statistics", "🧠 AI Insight"])
 
-    # -------- VISUALIZATION --------
+
     with tab1:
         num_cols = df.select_dtypes(include=["int64", "float64"]).columns
 
@@ -126,7 +120,7 @@ if uploaded_file:
             ax.set_title(f"{chart_type} of {col}")
             st.pyplot(fig)
 
-            # Correlation Heatmap
+            
             if len(num_cols) > 1:
                 st.markdown("### 📈 Correlation Heatmap")
                 corr = df[num_cols].corr()
@@ -134,11 +128,11 @@ if uploaded_file:
                 sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
                 st.pyplot(fig)
 
-    # -------- STATISTICS --------
+    
     with tab2:
         st.write(df.describe())
 
-    # -------- AI INSIGHT --------
+
     with tab3:
         st.success(
             f"""
@@ -157,3 +151,4 @@ else:
         "<div class='glass' style='margin-top:120px;'>👈 Upload a CSV file to start analysis</div>",
         unsafe_allow_html=True
     )
+
